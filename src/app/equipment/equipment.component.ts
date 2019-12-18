@@ -33,17 +33,17 @@ export class EquipmentComponent implements OnInit {
    // Code your addItem function here:
    addItem(item: {name: string, mass: number}){
     let i = this.equipmentItems.indexOf(item);
-    if(this.cargoMass >= this.maximumAllowedMass || (this.cargoMass+item.mass) >= this.maximumAllowedMass){
+    if(this.cargoMass > this.maximumAllowedMass || (this.cargoMass+item.mass) > this.maximumAllowedMass){
       this.inactive[i] = true;
     } else {
     this.cargoHold.push(item);
     this.cargoMass += item.mass;
     this.inactive[i] = false;
     }
-    if(this.maximumAllowedMass-this.cargoMass >= 200) {
+    if(this.cargoMass >= 1800) {
       this.maxBuffer = true;
     }
-    return this.inactive[i];
+    return this.inactive[i] && this.maxBuffer;
    }
    
 }

@@ -1,7 +1,7 @@
 <div class="displayBox">
     <h3>Equipment</h3>
     <ol>
-        <li *ngFor="let item of equipmentItems">
+        <li *ngFor="let item of equipmentItems; let i=index">
             <button [class.active] = "!inactive[i]" (click)="addItem(item)" [disabled]="inactive[i] || cargoHold.length === maxItems">Add to Cargo Hold</button>
             {{item.name}}, {{item.mass}} kg
         </li>
@@ -15,8 +15,9 @@
     <ol>
         <li *ngFor="let equipment of cargoHold">{{equipment.name}}</li>
     </ol>
-    <p>Mass in Hold: {{cargoMass}} kg {{counter}}</p>
-    <p [class.nearMassMax] = "maxBuffer">Mass Budget Remaining: {{maximumAllowedMass-cargoMass}} kg</p>
+    <p>Mass in Hold: {{cargoMass}} kg</p>
+    <p [class.nearMaxMass] = "maxBuffer">Mass Budget Remaining: {{maximumAllowedMass-cargoMass}} kg</p>
     <!-- Add the "Empty Hold" button here. -->
+    <button (click)="cargoHold.length = 0; cargoMass = 0">Empty Hold</button>
 </div>
 
