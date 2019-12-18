@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-equipment',
@@ -21,25 +22,28 @@ export class EquipmentComponent implements OnInit {
    cargoMass: number = 0;
    maximumAllowedMass: number = 2000;
    maxItems: number = 10;
-   massBuffer: boolean = false;
-   maxHold: boolean = false;
-   massExceeded: boolean = false;
+   maxBuffer: boolean = false;
+   inactive: boolean[] = [false, false, false, false, false, false, false, false, false];
+
 
    constructor() { }
 
    ngOnInit() { }
 
    // Code your addItem function here:
-   addItem(item: object){
-    if(this.cargoHold.length === this.maxItems){
-      this.maxHold = true;
-    }
-    if(this.cargoMass === this.maximumAllowedMass || (this.cargoMass+item.mass) === this.maximumAllowedMass){
-      this.massExceeded = true;
+   addItem(item: {name: string, mass: number}){
+    let i = this.equipmentItems.indexOf(item);
+    if(this.cargoMass >= this.maximumAllowedMass || (this.cargoMass+item.mass) >= this.maximumAllowedMass){
+      this.inactive[i] = true;
     } else {
     this.cargoHold.push(item);
     this.cargoMass += item.mass;
+    this.inactive[i] = false;
     }
+    if(this.maximumAllowedMass-this.cargoMass >= 200) {
+      this.maxBuffer = true;
+    }
+    return this.inactive[i];
    }
    
 }
