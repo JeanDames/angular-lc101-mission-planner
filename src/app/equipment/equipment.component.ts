@@ -36,14 +36,22 @@ export class EquipmentComponent implements OnInit {
     if(this.cargoMass > this.maximumAllowedMass || (this.cargoMass+item.mass) > this.maximumAllowedMass){
       this.inactive[i] = true;
     } else {
-    this.cargoHold.push(item);
-    this.cargoMass += item.mass;
-    this.inactive[i] = false;
+      this.cargoHold.push(item);
+      this.cargoMass += item.mass;
+      this.inactive[i] = false;
+    }
+    if((this.cargoMass + item.mass)>this.maximumAllowedMass){
+      this.inactive[i] = true;
+    }
+    if(this.cargoHold.length === 10) {
+      for(let j=0; j<this.inactive.length; j++) {
+        this.inactive[j] = true;
+      }
     }
     if(this.cargoMass >= 1800) {
       this.maxBuffer = true;
     }
-    return this.inactive[i] && this.maxBuffer;
+    return this.inactive && this.maxBuffer;
    }
    
 }
